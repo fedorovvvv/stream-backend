@@ -36,6 +36,7 @@ async function bootstrap() {
         sameSite: 'lax',
       },
       store: new RedisStore({
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         client: redis.client,
         prefix: config.getOrThrow<string>('SESSION_FOLDER'),
       }),
