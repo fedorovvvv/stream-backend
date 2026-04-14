@@ -1,6 +1,4 @@
 /* eslint-disable prettier/prettier */
-import type { SessionMetadata } from '@/src/shared/types/session-metadata.type';
-import * as React from 'react'
 import {
     Body,
     Head,
@@ -12,36 +10,42 @@ import {
     Text,
     Tailwind,
 } from '@react-email/components'
+import { SessionMetadata } from '@/src/shared/types/session-metadata.type';
+import * as React from 'react';
 
-interface PasswordRecoveryTemplateProps {
-    domain: string
+interface DeactivateTemplateProps {
     token: string
     metadata: SessionMetadata
 }
 
-export function PasswordRecoveryTemplate({ domain, token, metadata }: PasswordRecoveryTemplateProps) {
-    const resetLink=`${domain}/account/recovery/${token}`
-
+export function DeactivateTemplate({ token, metadata }: DeactivateTemplateProps) {
     return (
         <Html>
             <Head />
-            <Preview>Сброс пароля</Preview>
+            <Preview>Деактивация аккаунта</Preview>
             <Tailwind>
                 <Body className='max-w-2xl mx-auto p-6 bg-slate-50'>
                     <Section className='text-center mb-8'>
                         <Heading className='text-3xl text-black font-bold'>
-                            Сброс пароля
+                            Запрос на деактивацию аккаунта
                         </Heading>
                         <Text className='text-base text-black mt-2'>
-                             Вы запросили сброс пароля для вашей учетной записи.
+                             Вы инициировали процесс деактивации вашего аккаунта на платформе <b>TeaStream</b>
                         </Text>
-                        <Text className='text-base text-black mt-2'>
-                             Чтобы создать новый пароль, нажмите на ссылку ниже:
-                        </Text>
-                        <Link href={resetLink} className='inline-flex justify-center items-center rounded-full text-sm font-medium text-white bg-[#18B9AE] px-5 py-2'>
-                         Сбросить пароль <span aria-hidden>→</span>
-                        </Link>
                     </Section>
+
+                    <Section className='bg-gray-100 rounded-lg p-6 text-center mb-6'>
+                        <Heading className='text-2xl text-black font-semibold'>
+                            Код подтверждения:
+                        </Heading>
+                        <Heading className='text-3xl text-black font-semibold'>
+                            {token}
+                        </Heading>
+                        <Text className='text-black'>
+                            Этот код действителен в течение 5 минут.
+                        </Text>
+                    </Section>
+
                     <Section className='bg-gray-100 rounded-lg p-6 mb-6'>
                         <Heading className='text-xl font-semibold text-[#18B9AE]'>
                             Информация о запросе:
@@ -53,7 +57,7 @@ export function PasswordRecoveryTemplate({ domain, token, metadata }: PasswordRe
                             <li>💻 IP-адрес: {metadata.ip}</li>
                         </ul>
                         <Text className='text-grat-600 mt-2'>
-                            Если вы не запрашивали сброс пароля, просто проигнорируйте это письмо.
+                            Если вы не инициировали этот запрос, просто проигнорируйте это письмо.
                         </Text>
                     </Section>
                     <Section className='text-center mt-8'>

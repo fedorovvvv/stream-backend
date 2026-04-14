@@ -11,12 +11,13 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { verify } from 'argon2';
 import type { Request } from 'express';
-import { destroySession, saveSession } from '../../../shared/utils/session.util';
+import { TOTP } from 'otpauth';
 import { PrismaService } from '../../../core/prisma/prisma.service';
 import { RedisService } from '../../../core/redis/redis.service';
 import { getSessionMetadata } from '../../../shared/utils/session-metodata.util';
-import { LoginInput } from './inputs/login.input';
+import { destroySession, saveSession } from '../../../shared/utils/session.util';
 import { VerificationService } from '../verification/verification.service';
+import { LoginInput } from './inputs/login.input';
 
 /** Сессия connect-redis в JSON + id из ключа Redis после фильтра по userId */
 type UserSessionListItem = {
@@ -89,7 +90,7 @@ export class SessionService {
   }
 
   public async login(req: Request, input: LoginInput, userAgent: string) {
-    const { login, password } = input;
+    const { login, password, pin } = input;
 
     const user = await this.prismaService.user.findFirst({
       where: {
@@ -113,6 +114,32 @@ export class SessionService {
       throw new BadRequestException(
         'Аккаунт не верифицирован. Пожалуйста, проверьте свою электронную почту для подтверждения.',
       );
+    }
+
+    if (user.isTotpEnabled) {
+      if (!user.totpSecret) {
+        throw new BadRequestException(' ');
+      }
+
+      if (!pin) {
+        return {
+          message: 'Необходим код для завершения авторизации',
+        };
+      }
+
+      const totp = new TOTP({
+        issuer: 'TeaStream',
+        label: `${user.email}`,
+        algorithm: 'SHA1',
+        digits: 6,
+        secret: user.totpSecret,
+      });
+
+      const delta = totp.validate({ token: pin });
+
+      if (delta === null) {
+        throw new BadRequestException('Неверный код');
+      }
     }
 
     const metadata = getSessionMetadata(req, userAgent);

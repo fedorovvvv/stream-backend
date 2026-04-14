@@ -9,7 +9,7 @@ export async function generateToken(
   prismaService: PrismaService,
   user: User,
   type: TokenType,
-  isUUID: boolean = false,
+  isUUID: boolean = true,
 ) {
   let token: string;
   if (isUUID) {
@@ -20,7 +20,7 @@ export async function generateToken(
 
   const expiresIn = new Date(new Date().getTime() + 300000);
 
-  const existingTokem = await prismaService.token.findFirst({
+  const existingToken = await prismaService.token.findFirst({
     where: {
       type,
       user: {
@@ -29,10 +29,10 @@ export async function generateToken(
     },
   });
 
-  if (existingTokem) {
+  if (existingToken) {
     await prismaService.token.delete({
       where: {
-        id: existingTokem.id,
+        id: existingToken.id,
       },
     });
   }

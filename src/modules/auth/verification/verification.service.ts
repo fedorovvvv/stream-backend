@@ -60,12 +60,7 @@ export class VerificationService {
 
   public async sendVerificationToken(user: User) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const verificationToken = await generateToken(
-      this.prismaService,
-      user,
-      TokenType.EMAIL_VERIFY,
-      true,
-    );
+    const verificationToken = await generateToken(this.prismaService, user, TokenType.EMAIL_VERIFY);
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     await this.mailService.sendVerificationToken(user.email, verificationToken.token);

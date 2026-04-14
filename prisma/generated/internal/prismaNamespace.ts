@@ -602,6 +602,10 @@ export const UserScalarFieldEnum = {
   bio: 'bio',
   isVerified: 'isVerified',
   isEmailVerified: 'isEmailVerified',
+  isTotpEnabled: 'isTotpEnabled',
+  totpSecret: 'totpSecret',
+  isDeactivated: 'isDeactivated',
+  deactivatedAt: 'deactivatedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

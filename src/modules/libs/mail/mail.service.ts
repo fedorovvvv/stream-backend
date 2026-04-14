@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { render } from '@react-email/components';
 import type { SessionMetadata } from '@/src/shared/types/session-metadata.type';
+import { DeactivateTemplate } from './templates/deactivate.template';
 import { PasswordRecoveryTemplate } from './templates/password-recovery.template';
 import { VerificationTemplate } from './templates/verification.template';
 
@@ -26,7 +27,14 @@ export class MailService {
     const html = await render(PasswordRecoveryTemplate({ domain, token, metadata }));
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return this.sendMail(email, 'Верификация аккаунта', html);
+    return this.sendMail(email, 'Сброс пароля', html);
+  }
+
+  public async sendDeactivateToken(email: string, token: string, metadata: SessionMetadata) {
+    const html = await render(DeactivateTemplate({ token, metadata }));
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return this.sendMail(email, 'Деактивация аккаунта', html);
   }
 
   private sendMail(email: string, subject: string, html: string) {
