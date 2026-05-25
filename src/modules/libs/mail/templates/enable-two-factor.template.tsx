@@ -33,11 +33,11 @@ export function EnableTwoFactorTemplate({ domain }: EnableTwoFactorTemplateProps
                         </Text>
                     </Section>
 
-                    <Section className='bg-white rounded-lg shadow-md p-6 text-center mb-6'>
-                        <Heading className='text-2xl text-black font-semibold'>
+                    <Section className='bg-white rounded-lg shadow-md p-6 mb-6 items-center'>
+                        <Heading className='text-center text-2xl text-black font-semibold'>
                             Почему это важно?
                         </Heading>
-                        <Text className='text-base text-black mt-2'>
+                        <Text className='text-center text-base text-black mt-2'>
                             Двухфакторная аутентификация добавляет дополнительный уровень защиты, требуя код, который известен только вам.
                         </Text>
                         <Link

@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/require-await */
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { NotificationType } from '@/prisma/generated/client';
@@ -142,5 +139,19 @@ export class CronService {
         }
       }
     }
+  }
+
+  @Cron(CronExpression.EVERY_DAY_AT_1AM)
+  public async deleteOldNotifications() {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    await this.prismaService.notification.deleteMany({
+      where: {
+        createdAt: {
+          lte: sevenDaysAgo,
+        },
+      },
+    });
   }
 }
