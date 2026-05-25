@@ -18,5 +18,6 @@ export function getGraphQLConfig(configService: ConfigService): ApolloDriverConf
     autoSchemaFile: join(process.cwd(), 'src/core/graphql/shema.gql'),
     sortSchema: true,
     context: ({ req, res }: { req: Request; res: Response }) => ({ req, res }),
+    installSubscriptionHandlers: true,
   };
 }

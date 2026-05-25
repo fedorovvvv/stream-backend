@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import {
   BadRequestException,
   Injectable,
@@ -11,6 +13,7 @@ import { PrismaService } from '@/src/core/prisma/prisma.service';
 import { generateToken } from '@/src/shared/utils/generate-token.util';
 import { getSessionMetadata } from '@/src/shared/utils/session-metodata.util';
 import { MailService } from '../../libs/mail/mail.service';
+import { TelegramService } from '../../libs/telegram/telegram.service';
 import { NewPasswordInput } from './inputs/new-password.input';
 import { ResetPasswordInput } from './inputs/reset-passwort.input';
 
@@ -19,6 +22,7 @@ export class PasswordRecoveryService {
   public constructor(
     private readonly prismaService: PrismaService,
     private readonly mailService: MailService,
+    private readonly telegramService: TelegramService,
   ) {}
 
   public async resetPassword(req: Request, input: ResetPasswordInput, userAgent: string) {
@@ -27,6 +31,9 @@ export class PasswordRecoveryService {
     const user = await this.prismaService.user.findUnique({
       where: {
         email,
+      },
+      include: {
+        notificationSettings: true,
       },
     });
 
@@ -39,6 +46,17 @@ export class PasswordRecoveryService {
     const metadata = getSessionMetadata(req, userAgent);
 
     await this.mailService.sendPasswordResetToken(user.email, resetToken.token, metadata);
+
+    console.log('telegramId:', user.telegramId);
+    console.log('telegramNotifications:', user.notificationSettings?.telegramNotifications);
+
+    if (resetToken.user.notificationSettings?.telegramNotifications && resetToken.user.telegramId) {
+      await this.telegramService.sendPasswordResetToken(
+        resetToken.user.telegramId,
+        resetToken.token,
+        metadata,
+      );
+    }
 
     return true;
   }

@@ -1,4 +1,17 @@
 import { join } from 'node:path';
+import { register } from 'tsconfig-paths';
 
-// Скомпилированный main лежит в dist/src — алиасы @/* должны резолвиться от dist/
-process.env.TS_NODE_BASEURL = join(__dirname, '..');
+const distDir = join(__dirname, '..');
+const rootDir = join(distDir, '..');
+
+// Скомпилированный код в dist/src, Prisma — в prisma/ у корня репозитория
+register({
+  baseUrl: rootDir,
+  paths: {
+    '@/prisma/generated/*': ['prisma/generated/*'],
+    '@/src/*': ['dist/src/*'],
+    '@prisma/generated': ['prisma/generated'],
+    '@prisma/generated/*': ['prisma/generated/*'],
+    'prisma/generated/*': ['prisma/generated/*'],
+  },
+});

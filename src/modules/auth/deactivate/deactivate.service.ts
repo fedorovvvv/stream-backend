@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { verify } from 'argon2';
@@ -8,6 +10,7 @@ import { generateToken } from '@/src/shared/utils/generate-token.util';
 import { getSessionMetadata } from '@/src/shared/utils/session-metodata.util';
 import { destroySession } from '@/src/shared/utils/session.util';
 import { MailService } from '../../libs/mail/mail.service';
+import { TelegramService } from '../../libs/telegram/telegram.service';
 import { DeactivateAccountInput } from './inputs/deactivate-account.input';
 
 @Injectable()
@@ -16,6 +19,7 @@ export class DeactivateService {
     private readonly prismaService: PrismaService,
     private readonly mailService: MailService,
     private readonly configService: ConfigService,
+    private readonly telegramService: TelegramService,
   ) {}
 
   public async deactivate(
@@ -98,6 +102,19 @@ export class DeactivateService {
     const metadata = getSessionMetadata(req, userAgent);
 
     await this.mailService.sendDeactivateToken(user.email, deactivateToken.token, metadata);
+
+    if (
+      deactivateToken.user.notificationSettings?.telegramNotifications &&
+      deactivateToken.user.telegramId
+    ) {
+      await this.telegramService.sendDeactivateToken(
+        deactivateToken.user.telegramId,
+        deactivateToken.token,
+        metadata,
+      );
+
+      await this.telegramService.sendAccountDeletion(deactivateToken.user.telegramId);
+    }
 
     return true;
   }

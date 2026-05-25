@@ -4,7 +4,6 @@ import { NestFactory } from '@nestjs/core';
 import { RedisStore } from 'connect-redis';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-import 'tsconfig-paths/register';
 import './bootstrap-paths';
 import { CoreModule } from './core/core.module';
 import { RedisService } from './core/redis/redis.service';

@@ -54,7 +54,14 @@ export const ModelName = {
   User: 'User',
   SocialLink: 'SocialLink',
   Stream: 'Stream',
+  ChatMessage: 'ChatMessage',
   Category: 'Category',
+  Follow: 'Follow',
+  Notification: 'Notification',
+  NotificationSettings: 'NotificationSettings',
+  Transaction: 'Transaction',
+  SponsorshipPlan: 'SponsorshipPlan',
+  SponsorshipSubscription: 'SponsorshipSubscription',
   Token: 'Token'
 } as const
 
@@ -82,6 +89,7 @@ export const UserScalarFieldEnum = {
   displayName: 'displayName',
   avatar: 'avatar',
   bio: 'bio',
+  telegramId: 'telegramId',
   isVerified: 'isVerified',
   isEmailVerified: 'isEmailVerified',
   isTotpEnabled: 'isTotpEnabled',
@@ -116,6 +124,9 @@ export const StreamScalarFieldEnum = {
   serverUrl: 'serverUrl',
   streamKey: 'streamKey',
   isLive: 'isLive',
+  isChatEnabled: 'isChatEnabled',
+  isChatFollowersOnly: 'isChatFollowersOnly',
+  isChatPremiumFollowersOnly: 'isChatPremiumFollowersOnly',
   userId: 'userId',
   categoryId: 'categoryId',
   createdAt: 'createdAt',
@@ -123,6 +134,18 @@ export const StreamScalarFieldEnum = {
 } as const
 
 export type StreamScalarFieldEnum = (typeof StreamScalarFieldEnum)[keyof typeof StreamScalarFieldEnum]
+
+
+export const ChatMessageScalarFieldEnum = {
+  id: 'id',
+  text: 'text',
+  userId: 'userId',
+  streamId: 'streamId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ChatMessageScalarFieldEnum = (typeof ChatMessageScalarFieldEnum)[keyof typeof ChatMessageScalarFieldEnum]
 
 
 export const CategoryScalarFieldEnum = {
@@ -136,6 +159,84 @@ export const CategoryScalarFieldEnum = {
 } as const
 
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
+export const FollowScalarFieldEnum = {
+  id: 'id',
+  followerId: 'followerId',
+  followingId: 'followingId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FollowScalarFieldEnum = (typeof FollowScalarFieldEnum)[keyof typeof FollowScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  message: 'message',
+  type: 'type',
+  isRead: 'isRead',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+export const NotificationSettingsScalarFieldEnum = {
+  id: 'id',
+  siteNotifications: 'siteNotifications',
+  telegramNotifications: 'telegramNotifications',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NotificationSettingsScalarFieldEnum = (typeof NotificationSettingsScalarFieldEnum)[keyof typeof NotificationSettingsScalarFieldEnum]
+
+
+export const TransactionScalarFieldEnum = {
+  id: 'id',
+  amount: 'amount',
+  currency: 'currency',
+  stripeSubscriptionId: 'stripeSubscriptionId',
+  status: 'status',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
+
+
+export const SponsorshipPlanScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  price: 'price',
+  stripeProductId: 'stripeProductId',
+  stripePlanId: 'stripePlanId',
+  channelId: 'channelId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SponsorshipPlanScalarFieldEnum = (typeof SponsorshipPlanScalarFieldEnum)[keyof typeof SponsorshipPlanScalarFieldEnum]
+
+
+export const SponsorshipSubscriptionScalarFieldEnum = {
+  id: 'id',
+  expiresAt: 'expiresAt',
+  planId: 'planId',
+  userId: 'userId',
+  channelId: 'channelId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SponsorshipSubscriptionScalarFieldEnum = (typeof SponsorshipSubscriptionScalarFieldEnum)[keyof typeof SponsorshipSubscriptionScalarFieldEnum]
 
 
 export const TokenScalarFieldEnum = {

@@ -55,10 +55,45 @@ export type SocialLink = Prisma.SocialLinkModel
  */
 export type Stream = Prisma.StreamModel
 /**
+ * Model ChatMessage
+ * 
+ */
+export type ChatMessage = Prisma.ChatMessageModel
+/**
  * Model Category
  * 
  */
 export type Category = Prisma.CategoryModel
+/**
+ * Model Follow
+ * 
+ */
+export type Follow = Prisma.FollowModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel
+/**
+ * Model NotificationSettings
+ * 
+ */
+export type NotificationSettings = Prisma.NotificationSettingsModel
+/**
+ * Model Transaction
+ * 
+ */
+export type Transaction = Prisma.TransactionModel
+/**
+ * Model SponsorshipPlan
+ * 
+ */
+export type SponsorshipPlan = Prisma.SponsorshipPlanModel
+/**
+ * Model SponsorshipSubscription
+ * 
+ */
+export type SponsorshipSubscription = Prisma.SponsorshipSubscriptionModel
 /**
  * Model Token
  * 
