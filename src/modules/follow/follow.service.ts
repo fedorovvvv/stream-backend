@@ -48,6 +48,20 @@ export class FollowService {
     return followings;
   }
 
+  public async isFollowing(user: User, channelId: string) {
+    if (user.id === channelId) return false;
+
+    const existing = await this.prismaService.follow.findFirst({
+      where: {
+        followerId: user.id,
+        followingId: channelId,
+      },
+      select: { id: true },
+    });
+
+    return !!existing;
+  }
+
   public async follow(user: User, channelId: string) {
     const channel = await this.prismaService.user.findUnique({
       where: {

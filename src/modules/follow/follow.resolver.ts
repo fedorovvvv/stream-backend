@@ -23,6 +23,12 @@ export class FollowResolver {
   }
 
   @Authorization()
+  @Query(() => Boolean, { name: 'isFollowing' })
+  public async isFollowing(@Authorized() user: User, @Args('channelId') channelId: string) {
+    return this.followService.isFollowing(user, channelId);
+  }
+
+  @Authorization()
   @Mutation(() => Boolean, { name: 'followChannel' })
   public async follow(@Authorized() user: User, @Args('channelId') channelId: string) {
     return this.followService.follow(user, channelId);

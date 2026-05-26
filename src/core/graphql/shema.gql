@@ -244,6 +244,7 @@ type Query {
   findSocialLinks: [SocialLinkModel!]!
   findSponsorsByChannel(channelId: String!): [SubscriptionModel!]!
   generateTotpSecret: TotpModel!
+  isFollowing(channelId: String!): Boolean!
 }
 
 input ResetPasswordInput {
