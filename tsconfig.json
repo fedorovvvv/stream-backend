@@ -29,5 +29,7 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "jsx": "react"
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["dist", "node_modules", "web", "prisma/generated", "**/*.spec.ts"]
 }
